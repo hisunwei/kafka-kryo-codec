@@ -22,7 +22,7 @@ public class PutGet {
 
 	public static void main(String[] args) {
 		put();
-		get();
+//		get();
 	}
 
 	public static Properties getProperties() {
@@ -47,7 +47,7 @@ public class PutGet {
 
 		Producer<String, byte[]> producer = new Producer<String, byte[]>(config);
 
-		PersonKryoEncoder encoder = new PersonKryoEncoder();
+		PersonKryoCodec encoder = new PersonKryoCodec();
 		for (long nEvents = 0; nEvents < 10; nEvents++) {
 			long runtime = new Date().getTime();
 			String ip = "192.168.2." + rnd.nextInt(255);
@@ -78,7 +78,7 @@ public class PutGet {
 		List<KafkaStream<byte[], byte[]>> lists = consumerMap.get(TOPIC);
 		KafkaStream<byte[], byte[]> stream = lists.get(0);
 		ConsumerIterator<byte[], byte[]> it = stream.iterator();
-		PersonKryoDecoder decoder = new PersonKryoDecoder();
+		PersonKryoCodec decoder = new PersonKryoCodec();
 		while (it.hasNext()) {
 			MessageAndMetadata<byte[], byte[]> msg = it.next();
 			System.out.println(stream + "  " + new String(msg.key())
